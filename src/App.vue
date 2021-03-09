@@ -1,22 +1,84 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+	<router-view></router-view>
 </template>
 
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
+<script>
+import { useRouter } from "vue-router";
+export default {
+	setup() {
+		const router = useRouter();
+		if (localStorage.getItem("token")) {
+			router.push("/home");
+		} else {
+			router.push("/login");
+		}
+	},
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body,
+dl,
+dd,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+form,
+header,
+section,
+article,
+footer {
+	margin: 0;
+}
+body,
+button,
+input,
+select,
+textarea {
+	font: 12px/1.5 tahoma, "\5FAE\8F6F\96C5\9ED1", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 100%;
+}
+em,
+b {
+	font-style: normal;
+}
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+img {
+	border: 0;
+}
+button,
+input,
+select,
+textarea {
+	font-size: 100%;
+	outline: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+td,
+th,
+ul,
+ol {
+	padding: 0;
 }
 </style>
