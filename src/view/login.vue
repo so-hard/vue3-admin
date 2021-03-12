@@ -1,23 +1,96 @@
 <template>
 	<section class="login">
-		<el-form ref="form" :model="loginFormData" class="login-container">
-			<el-form-item label="用户名">
-				<el-input v-model="loginFormData.username"></el-input>
+		<el-form
+			ref="formRef"
+			:rules="loginFormRules"
+			:model="loginFormData"
+			class="login-container"
+		>
+			<el-form-item label="用户邮箱" prop="identifier">
+				<el-input
+					placeholder="输入邮箱"
+					v-model="loginFormData.identifier"
+				></el-input>
 			</el-form-item>
-			<el-form-item label="密码">
-				<el-input v-model="loginFormData.passwold" type="passworld"></el-input>
+			<el-form-item label="密码" prop="credential">
+				<el-input
+					placeholder="输入密码"
+					type="password"
+					v-model="loginFormData.credential"
+				></el-input>
+			</el-form-item>
+			<el-form-item size="large">
+				<el-button type="primary" @click="onSubmit">立即创建</el-button>
+				<el-button>取消</el-button>
 			</el-form-item>
 		</el-form>
 	</section>
 </template>
 
 <script>
-import { reactive } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
+import { ElMessage } from "element-plus";
+
+import { sign, register } from "../api/user.js";
+import { nextTick, onMounted } from "@vue/runtime-core";
 export default {
 	setup() {
-		const loginFormData = reactive({ username: "", passwold: "" });
+		const loginFormData = reactive({
+			identifier: "",
+			credential: "",
+			identity_type: "email",
+		});
+		const formRef = ref(null);
+		const loginFormRules = {
+			identifier: [
+				{
+					trigger: "blur",
+					required: true,
+					message: "请输入邮箱",
+				},
+			],
+			credential: [
+				{
+					trigger: "blur",
+					required: true,
+					message: "请输入密码",
+				},
+			],
+		};
+
+		async function onSubmit() {
+			try {
+				// await formRef.
+				// console.log(formRef);
+				let resVaii = await formRef.value.validate();
+				console.log(resVaii);
+				const res = await sign(loginFormData);
+				const { code, msg, data } = res;
+				if (code === 200) {
+					console.log(data);
+				} else {
+					throw msg;
+				}
+			} catch (error) {
+				if (typeof error === "string") {
+					ElMessage.error(error);
+				} else {
+					for (const key in error) {
+						ElMessage.error(error[key][0].message);
+						await nextTick()
+					}
+				}
+			}
+		}
+		onMounted(() => {
+			onSubmit;
+		});
+
 		return {
 			loginFormData,
+			onSubmit,
+			loginFormRules,
+			formRef,
 		};
 	},
 };

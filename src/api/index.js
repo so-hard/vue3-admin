@@ -15,7 +15,12 @@ Axios.interceptors.request.use(config=> {
 })
 
 Axios.interceptors.response.use(res=> {
-  console.log(res)
+  // console.log(res)
+  if(res.status === 200){
+    return res.data
+  }else {
+    throw err
+  }
 },err => {
   return err
 })
