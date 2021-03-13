@@ -20,8 +20,8 @@
 				></el-input>
 			</el-form-item>
 			<el-form-item size="large">
-				<el-button type="primary" @click="onSubmit">立即创建</el-button>
-				<el-button>取消</el-button>
+				<el-button type="primary" @click="onSign">登录</el-button>
+				<el-button type="info" @click="onRegister">注册用户</el-button>
 			</el-form-item>
 		</el-form>
 	</section>
@@ -58,10 +58,8 @@ export default {
 			],
 		};
 
-		async function onSubmit() {
+		async function onSign() {
 			try {
-				// await formRef.
-				// console.log(formRef);
 				let resVaii = await formRef.value.validate();
 				console.log(resVaii);
 				const res = await sign(loginFormData);
@@ -82,15 +80,20 @@ export default {
 				}
 			}
 		}
+
+		async function onRegister(){
+			ElMessage.info('click')
+		}
 		onMounted(() => {
-			onSubmit;
+			onSign;
 		});
 
 		return {
 			loginFormData,
-			onSubmit,
+			onSign,
 			loginFormRules,
 			formRef,
+			onRegister
 		};
 	},
 };
