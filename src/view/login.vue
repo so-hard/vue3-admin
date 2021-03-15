@@ -19,9 +19,15 @@
 					v-model="loginFormData.credential"
 				></el-input>
 			</el-form-item>
-			<el-form-item size="large">
-				<el-button type="primary" @click="onSign">登录</el-button>
-				<el-button type="info" @click="onRegister">注册用户</el-button>
+			<el-form-item >
+				<el-row type="flex" justify="space-between">
+					<el-col :span="6">
+						<el-button type="primary" @click="onSign">登录</el-button>
+					</el-col>
+					<el-col :span="9">
+						<el-button type="info" @click="onRegister">注册用户</el-button>
+					</el-col>
+				</el-row>
 			</el-form-item>
 		</el-form>
 	</section>
@@ -75,14 +81,14 @@ export default {
 				} else {
 					for (const key in error) {
 						ElMessage.error(error[key][0].message);
-						await nextTick()
+						await nextTick();
 					}
 				}
 			}
 		}
 
-		async function onRegister(){
-			ElMessage.info('click')
+		async function onRegister() {
+			ElMessage.info("click");
 		}
 		onMounted(() => {
 			onSign;
@@ -93,7 +99,7 @@ export default {
 			onSign,
 			loginFormRules,
 			formRef,
-			onRegister
+			onRegister,
 		};
 	},
 };
